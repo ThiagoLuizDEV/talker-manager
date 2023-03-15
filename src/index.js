@@ -1,6 +1,10 @@
 const express = require('express');
 const fsFunctions = require('./fsFunctions');
 
+const { validationEmail } = fsFunctions;
+
+const { validationPassword } = fsFunctions;
+
 const app = express();
 app.use(express.json());
 
@@ -27,7 +31,7 @@ app.get('/talker/:id', async (req, res) => {
   return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
 });
 
-app.post('/login', (_req, res) => {
+app.post('/login', validationPassword, validationEmail, (_req, res) => {
   const result = fsFunctions.randomTalker();
   return res.status(200).json({ token: result });
 });
