@@ -21,6 +21,14 @@ const allTalkers = async () => {
     return data;
 };
 
+const talkerID = async (id) => {
+    const data = await readTalker();
+    
+    const talkerId = data.find((talker) => talker.id === +id);
+    return talkerId;
+};
+
 module.exports = {
     allTalkers,
+    talkerID,
 };
