@@ -27,6 +27,11 @@ app.get('/talker/:id', async (req, res) => {
   return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
 });
 
+app.post('/login', (_req, res) => {
+  const result = fsFunctions.randomTalker();
+  return res.status(200).json({ token: result });
+});
+
 app.listen(PORT, () => {
   console.log('Online');
 });
