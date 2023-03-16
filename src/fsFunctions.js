@@ -151,22 +151,20 @@ const writeTalke = async (content) => {
 
 const UpTalkerID = async (id, name, age, talk) => {
     const data = await readTalker();
-    const object = { id: +id, name, age, talk };
-    const talkerId = data.map((talker) => {
-        if (talker.id === +id) {
-            return {
-                ...talker,
-                name,
-                age,
-                talk,
-            };
-        }
-        return talker;
-    });
-    await writeTalke(talkerId);
-
-    return object;
-};
+    const talkerIndex = data.findIndex((talker) => talker.id === +id);
+    if (talkerIndex === -1) {
+      return false;
+    }
+    const updatedTalker = {
+        ...data[talkerIndex],
+        name,
+        age,
+        talk,
+      };
+    data[talkerIndex] = updatedTalker;
+    await writeTalke(data);
+    return updatedTalker;
+  };
 
 const deleteTalker = async (id) => {
     const data = await readTalker();

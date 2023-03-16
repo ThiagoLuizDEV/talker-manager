@@ -85,7 +85,7 @@ async (req, res) => {
   const { name, age, talk } = req.body;
   
   const up = await fsFunctions.UpTalkerID(+id, name, age, talk);
-  if (!id) {
+  if (!up) {
     return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
   } 
 
