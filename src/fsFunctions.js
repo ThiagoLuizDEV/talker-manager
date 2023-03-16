@@ -141,6 +141,46 @@ const validationRate = (req, res, next) => {
     }
     next();
 };
+const writeTalke = async (content) => {
+    try {
+    await fs.writeFile(completePath, JSON.stringify(content, null, 2, 'utf-8'));
+    } catch (e) {
+        console.error(e.message);
+    }
+}; 
+
+const UpTalkerID = async (id, name, age, talk) => {
+    const data = await readTalker();
+    const object = { id: +id, name, age, talk };
+    const talkerId = data.map((talker) => {
+        if (talker.id === +id) {
+            return {
+                ...talker,
+                name,
+                age,
+                talk,
+            };
+        }
+        return talker;
+    });
+    await writeTalke(talkerId);
+
+    return object;
+};
+
+const deleteTalker = async (id) => {
+    const data = await readTalker();
+    const deleteTalkerFilter = data.filter((talk) => talk.id !== id);
+    await writeTalke(JSON.stringify(deleteTalkerFilter));
+};
+
+const talkerSearch = async (q) => {
+    const data = await readTalker();
+
+    const searchTalkerFilter = data.filter((talk) => talk.name.includes(q));
+
+    return searchTalkerFilter;
+};
 
 module.exports = {
     allTalkers,
@@ -156,4 +196,8 @@ module.exports = {
     validationRate,
     completePath,
     fs,
+    UpTalkerID,
+    deleteTalker,
+    talkerSearch,
+    readTalker,
 };
